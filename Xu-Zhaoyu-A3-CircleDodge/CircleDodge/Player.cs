@@ -36,4 +36,13 @@ public class Player
         Draw.LineSize = 2;
         Draw.Circle(Position, Radius);
     }
+
+    public bool CollidesWith(Vector2 otherPosition, float otherRadius)
+    {
+        Vector2 difference = Position - otherPosition;
+        float distanceSquared = difference.X * difference.X + difference.Y * difference.Y;
+        float radiusTotal = Radius + otherRadius;
+
+        return distanceSquared <= radiusTotal * radiusTotal;
+    }
 }
