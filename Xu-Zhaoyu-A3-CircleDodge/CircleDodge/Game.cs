@@ -12,9 +12,8 @@ public class Game
 
     // Game state variables
     bool gameOver;
-    bool gameWin;
     int score;
-    int targetScore = 5; // Number of stars needed to win
+    int highScore;
 
     // Setup runs once at the start of the game
     public void Setup()
@@ -36,7 +35,7 @@ public class Game
         Window.ClearBackground(Color.OffWhite);
 
         // Only update movement/collision if the game is still active
-        if (!gameOver && !gameWin)
+        if (!gameOver)
         {
             UpdateGame();
         }
@@ -78,10 +77,9 @@ public class Game
         star = new StarCollectible(400, 200, 12);
         star.Respawn();
 
-        // Reset game status values
+        // Reset only the current run values
         score = 0;
         gameOver = false;
-        gameWin = false;
     }
 
     // Update all active game logic
@@ -107,13 +105,14 @@ public class Game
         {
             // Increase score and move the star somewhere else
             score++;
-            star.Respawn();
 
-            // If the player reaches the target score, they win
-            if (score >= targetScore)
+            // Update the saved high score if this run is the best so far
+            if (score > highScore)
             {
-                gameWin = true;
+                highScore = score;
             }
+
+            star.Respawn();
         }
     }
 
@@ -130,16 +129,17 @@ public class Game
         star.DrawSelf();
     }
 
-    // Draw score, instructions, and win/lose messages
+    // Draw score, instructions, and lose message
     void DrawUI()
     {
         Text.Color = Color.Black;
         Text.Size = 24;
         Text.Draw("Score: " + score, 20, 20);
-        Text.Draw("Goal: " + targetScore, 20, 50);
+        Text.Draw("High Score: " + highScore, 20, 50);
 
         Text.Size = 18;
         Text.Draw("Move with arrow keys or WASD", 20, 82);
+        Text.Draw("Collect stars and survive as long as possible", 20, 108);
 
         // Show lose message
         if (gameOver)
@@ -147,18 +147,6 @@ public class Game
             Text.Color = Color.Red;
             Text.Size = 40;
             Text.Draw("GAME OVER", 270, 250);
-
-            Text.Color = Color.Black;
-            Text.Size = 22;
-            Text.Draw("Press SPACE to restart", 285, 300);
-        }
-
-        // Show win message
-        if (gameWin)
-        {
-            Text.Color = Color.Green;
-            Text.Size = 40;
-            Text.Draw("YOU WIN!", 295, 250);
 
             Text.Color = Color.Black;
             Text.Size = 22;
