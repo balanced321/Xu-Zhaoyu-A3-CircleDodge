@@ -15,6 +15,20 @@ public class Player
         Speed = speed;
     }
 
+    public void Update()
+    {
+        Vector2 move =
+            Input.GetAxis2(KeyboardInput.A, KeyboardInput.D, KeyboardInput.W, KeyboardInput.S) +
+            Input.GetAxis2(KeyboardInput.Left, KeyboardInput.Right, KeyboardInput.Up, KeyboardInput.Down);
+
+        Position += move * Speed;
+
+        if (Position.X < Radius) Position.X = Radius;
+        if (Position.X > Window.Width - Radius) Position.X = Window.Width - Radius;
+        if (Position.Y < Radius) Position.Y = Radius;
+        if (Position.Y > 560 - Radius) Position.Y = 560 - Radius;
+    }
+
     public void DrawSelf()
     {
         Draw.FillColor = Color.Blue;

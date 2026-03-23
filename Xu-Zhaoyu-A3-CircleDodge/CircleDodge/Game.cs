@@ -21,6 +21,8 @@ public class Game
     {
         Window.ClearBackground(Color.OffWhite);
 
+        player.Update();
+
         DrawBackground();
         player.DrawSelf();
     }
